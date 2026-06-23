@@ -245,6 +245,89 @@
             right: var(--shell-pad);
         }
 
+        .reveal {
+            opacity: 0;
+            transform: translate3d(0, 42px, 0) scale(0.985);
+            transition:
+                opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+            transition-delay: var(--reveal-delay, 0ms);
+            will-change: opacity, transform;
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translate3d(0, 0, 0) scale(1);
+        }
+
+        .reveal-left {
+            transform: translate3d(-56px, 24px, 0) scale(0.985);
+        }
+
+        .reveal-right {
+            transform: translate3d(56px, 24px, 0) scale(0.985);
+        }
+
+        .reveal-zoom {
+            transform: translate3d(0, 32px, 0) scale(0.94);
+        }
+
+        .tilt-card {
+            position: relative;
+            transform-style: preserve-3d;
+            transition:
+                transform 220ms ease-out,
+                box-shadow 220ms ease-out,
+                border-color 220ms ease-out;
+            will-change: transform;
+        }
+
+        .tilt-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.14), transparent 34%);
+            opacity: 0;
+            transition: opacity 220ms ease-out;
+            pointer-events: none;
+        }
+
+        .tilt-card.is-tilting::after {
+            opacity: 1;
+        }
+
+        .float-layer {
+            --float-x: 0px;
+            --float-y: 0px;
+            --layer-z: 0px;
+            will-change: transform;
+            transition: transform 200ms ease-out, opacity 300ms ease-out;
+            transform: translate3d(var(--float-x), var(--float-y), var(--layer-z));
+        }
+
+        .tilt-depth-1 {
+            --layer-z: 20px;
+        }
+
+        .tilt-depth-2 {
+            --layer-z: 48px;
+        }
+
+        .hero-orb {
+            animation: heroFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes heroFloat {
+            0%, 100% {
+                transform: translate3d(0, 0, 0);
+            }
+
+            50% {
+                transform: translate3d(0, -16px, 0);
+            }
+        }
+
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -272,6 +355,21 @@
                 opacity: 0.025;
             }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .reveal,
+            .reveal-left,
+            .reveal-right,
+            .reveal-zoom,
+            .tilt-card,
+            .float-layer,
+            .hero-orb {
+                animation: none !important;
+                transition: none !important;
+                transform: none !important;
+                opacity: 1 !important;
+            }
+        }
     </style>
 </head>
 <body class="bg-void-black selection:bg-primary selection:text-void-black">
@@ -295,17 +393,17 @@
             <div class="section-num">001</div>
             <div class="hud-corner top-24 shell-pad-l">MANIFEST: ALTORA_CORE_INIT</div>
             <div class="hud-corner top-24 shell-pad-r">STABILITY: 100.00%</div>
-            <div class="relative z-10 w-full max-w-6xl text-center">
+            <div class="relative z-10 w-full max-w-6xl text-center reveal">
                 <p class="mb-4 font-label-mono text-[11px] uppercase tracking-[0.3em] text-primary opacity-70 md:mb-6 md:text-label-mono md:tracking-[0.4em]">
                     Beginning the eternal descent
                 </p>
                 <h1 class="mb-8 font-display-lg text-[18vw] uppercase leading-[0.85] tracking-tight scale-y-110 sm:text-[14vw] md:mb-12 md:text-display-lg">
                     The Eternal<br><span class="text-outline-muted">Monolith</span>
                 </h1>
-                <div class="relative inline-block">
+                <div class="tilt-card hero-orb relative inline-block" data-tilt data-tilt-strength="16">
                     <div class="crosshair -top-5 -left-5"></div>
                     <div class="crosshair -right-5 -bottom-5"></div>
-                    <img alt="The Monolith Core" class="w-[80vw] max-w-5xl opacity-90 mix-blend-screen drop-shadow-[0_0_80px_rgba(255,255,255,0.05)]" src="https://lh3.googleusercontent.com/aida/AP1WRLtY3XjvQb7x_S6pbQz_xGD9cN2B2s9U8MglGF26uDV0HWLI-0PnBQd2bv3U8yHJ9IveKytCavMNCYMQXn0tHthY-Jsa_Yx9ovmrMOnMwS9RQbpTy5jb5_V2Z8OSmIVmE6khQjkAgDJEgkdJi2F983VywcuRP1mwiRWzDJo708L96dS0L5dWwjZKyFZ3TSwUOAe5Z37pmiApdQM1oDSEW-StpFgpKZ2BZyx2LQXnHKuShgrGBvynRUYOsw">
+                    <img alt="The Monolith Core" class="float-layer tilt-depth-2 w-[80vw] max-w-5xl opacity-90 mix-blend-screen drop-shadow-[0_0_80px_rgba(255,255,255,0.05)]" data-float data-float-strength="20" src="https://lh3.googleusercontent.com/aida/AP1WRLtY3XjvQb7x_S6pbQz_xGD9cN2B2s9U8MglGF26uDV0HWLI-0PnBQd2bv3U8yHJ9IveKytCavMNCYMQXn0tHthY-Jsa_Yx9ovmrMOnMwS9RQbpTy5jb5_V2Z8OSmIVmE6khQjkAgDJEgkdJi2F983VywcuRP1mwiRWzDJo708L96dS0L5dWwjZKyFZ3TSwUOAe5Z37pmiApdQM1oDSEW-StpFgpKZ2BZyx2LQXnHKuShgrGBvynRUYOsw">
                 </div>
             </div>
             <div class="absolute bottom-6 left-1/2 flex -translate-x-1/2 flex-col items-center gap-3 md:bottom-12 md:gap-4">
@@ -318,14 +416,14 @@
             <section class="relative flex min-h-screen items-center overflow-hidden border-t border-white/5 py-20 shell-pad-x md:py-24">
                 <div class="section-num">002</div>
                 <div class="relative z-10 grid w-full grid-cols-1 items-center gap-12 md:grid-cols-2">
-                    <div class="max-w-xl">
+                    <div class="max-w-xl reveal reveal-left">
                         <h2 class="mb-6 font-headline-lg text-4xl uppercase tracking-tight md:mb-8 md:text-headline-lg">Geometric<br>Constraints.</h2>
                         <p class="font-body-lg leading-relaxed text-on-surface-variant">
                             In the void, structure is the only truth. We define the parameters of existence through strict geometric logic. No curves without purpose, no lines without destination.
                         </p>
                     </div>
-                    <div class="relative">
-                        <img alt="Geometric Structure" class="w-full border border-white/10 opacity-60 grayscale mix-blend-lighten" src="https://lh3.googleusercontent.com/aida/AP1WRLvwlQFDPz_KO30UQPzXQDQ-n3W-WwoUEoXuhi-2m5dN9tYyOi3HxIPzSS6YzPfuldp7Jzi7m0AD_JpmSVbxh8rTVo7gyqWRwcnigPSIBjv9ZQRORkiCEGAZPZxEQG4xtq2PG6gjZlWPY3gp-J-0RKfL6GYtTh8hlbPuis2gLK2tMLHjeA_NRz7E0IN9q3DwnbV-NmseFwdEjTFYzlzOVo5FnwxVivcihT9dEzF-JZCU-ZwvI-SwzFUzFA">
+                    <div class="tilt-card reveal reveal-right relative" data-tilt data-tilt-strength="12">
+                        <img alt="Geometric Structure" class="float-layer tilt-depth-2 w-full border border-white/10 opacity-60 grayscale mix-blend-lighten" data-float data-float-strength="14" src="https://lh3.googleusercontent.com/aida/AP1WRLvwlQFDPz_KO30UQPzXQDQ-n3W-WwoUEoXuhi-2m5dN9tYyOi3HxIPzSS6YzPfuldp7Jzi7m0AD_JpmSVbxh8rTVo7gyqWRwcnigPSIBjv9ZQRORkiCEGAZPZxEQG4xtq2PG6gjZlWPY3gp-J-0RKfL6GYtTh8hlbPuis2gLK2tMLHjeA_NRz7E0IN9q3DwnbV-NmseFwdEjTFYzlzOVo5FnwxVivcihT9dEzF-JZCU-ZwvI-SwzFUzFA">
                         <div class="hud-corner right-4 bottom-4">REF_GEO_01</div>
                     </div>
                 </div>
@@ -333,7 +431,7 @@
 
             <section class="grid min-h-screen grid-cols-1 items-center gap-gutter border-t border-white/5 py-20 shell-pad-x md:grid-cols-2 md:py-24">
                 <div class="section-num">003</div>
-                <div class="terminal-block min-w-0 border-l-2 border-primary py-8 pl-4 md:py-12 md:pl-8">
+                <div class="terminal-block reveal reveal-left min-w-0 border-l-2 border-primary py-8 pl-4 md:py-12 md:pl-8">
                     <h3 class="mb-6 font-label-mono text-primary">[ SYS_ARCHITECTURE_v4.0 ]</h3>
                     <pre class="overflow-x-auto border border-white/10 bg-surface-container-lowest p-6 text-[10px]">struct Core {
     vec3 position;
@@ -350,11 +448,11 @@ void main() {
     }
 }</pre>
                 </div>
-                <div class="space-y-8 md:space-y-12 md:pl-12">
+                <div class="reveal reveal-right space-y-8 md:space-y-12 md:pl-12">
                     <h4 class="font-title-md text-title-md uppercase tracking-widest opacity-80">Oryzo AI Core</h4>
                     <p class="font-body-md text-on-surface-variant">The skeletal framework for our cognitive engine. Oryzo operates on a 12-layer neural lattice designed for extreme latency reduction.</p>
-                    <div class="group relative">
-                        <img alt="Neural Network Diagram" class="h-48 w-full object-cover opacity-40 grayscale transition-opacity duration-700 group-hover:opacity-100" src="https://lh3.googleusercontent.com/aida/AP1WRLtxEH0671AS-r9TjigMZkJ3yZaqDH-THJV0GSFxZg61UVbhMvl1Pnp18ZMLkpNDT_ir6giKfIWuONevEFkqD9nSIRIkU9gYVk-nziU1OhPhGPKi7zqvezaQeUPD8ojix01slpd6gH7Znk17GG5j0qVh5pOBlk6GdReJD19nVe7HHlfm_93lgAGfASnvmVnB7lAJeD0MTO5zNJRYz-7RCt25Ry26FFAwgmlQAKU9i1AFbkKLQigF2pdDfw">
+                    <div class="tilt-card group relative" data-tilt data-tilt-strength="10">
+                        <img alt="Neural Network Diagram" class="float-layer tilt-depth-1 h-48 w-full object-cover opacity-40 grayscale transition-opacity duration-700 group-hover:opacity-100" data-float data-float-strength="12" src="https://lh3.googleusercontent.com/aida/AP1WRLtxEH0671AS-r9TjigMZkJ3yZaqDH-THJV0GSFxZg61UVbhMvl1Pnp18ZMLkpNDT_ir6giKfIWuONevEFkqD9nSIRIkU9gYVk-nziU1OhPhGPKi7zqvezaQeUPD8ojix01slpd6gH7Znk17GG5j0qVh5pOBlk6GdReJD19nVe7HHlfm_93lgAGfASnvmVnB7lAJeD0MTO5zNJRYz-7RCt25Ry26FFAwgmlQAKU9i1AFbkKLQigF2pdDfw">
                         <div class="pointer-events-none absolute inset-0 border border-white/10"></div>
                     </div>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -373,14 +471,14 @@ void main() {
             <section class="relative flex min-h-[60vh] items-center overflow-hidden border-t border-white/5 py-20 shell-pad-x md:py-24">
                 <div class="section-num">010</div>
                 <div class="relative z-10 grid w-full grid-cols-1 items-center gap-12 md:grid-cols-3">
-                    <div>
+                    <div class="reveal reveal-left">
                         <span class="mb-2 block font-label-mono text-primary">LOG_012: NEURAL_MAPPING</span>
                         <p class="font-body-md text-on-surface-variant">Scanning infrastructure for Devin integration. The autonomous developer agent requires a high-fidelity sandbox environment.</p>
                     </div>
-                    <div class="relative md:col-span-2">
-                        <img alt="Megacity Blueprint" class="h-64 w-full object-cover opacity-30 grayscale mix-blend-screen" src="https://lh3.googleusercontent.com/aida/AP1WRLuBr8nRco0hSOcZ6H2y0W4z-p4rRUsuLIy6IUp-r13ktWXj_lTF-1GRWtaOia55vrBxJ7aIfmxxeFuNBRkNmca-Ut_W5xbgbiucEcakdt9NUu-og0kJAA29-scxq9gUO39aZluFnt3RNfTjPf6-uv_L7SE-eKSKCE0T6eWwN6uDGn2ShPFV52iHjUwNpB27NDAV2i0Eq_Yn7yCYKhytfO-FWFXNYZP7EjtIrbsGQIkdxdoAzw">
+                    <div class="tilt-card reveal reveal-right relative md:col-span-2" data-tilt data-tilt-strength="10">
+                        <img alt="Megacity Blueprint" class="float-layer tilt-depth-1 h-64 w-full object-cover opacity-30 grayscale mix-blend-screen" data-float data-float-strength="10" src="https://lh3.googleusercontent.com/aida/AP1WRLuBr8nRco0hSOcZ6H2y0W4z-p4rRUsuLIy6IUp-r13ktWXj_lTF-1GRWtaOia55vrBxJ7aIfmxxeFuNBRkNmca-Ut_W5xbgbiucEcakdt9NUu-og0kJAA29-scxq9gUO39aZluFnt3RNfTjPf6-uv_L7SE-eKSKCE0T6eWwN6uDGn2ShPFV52iHjUwNpB27NDAV2i0Eq_Yn7yCYKhytfO-FWFXNYZP7EjtIrbsGQIkdxdoAzw">
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="font-label-mono text-[5rem] leading-none opacity-5 md:text-[12rem]">DEVIN</div>
+                            <div class="float-layer tilt-depth-2 font-label-mono text-[5rem] leading-none opacity-5 md:text-[12rem]" data-float data-float-strength="24">DEVIN</div>
                         </div>
                     </div>
                 </div>
@@ -388,11 +486,11 @@ void main() {
 
             <section class="relative grid min-h-screen grid-cols-1 gap-8 border-t border-white/5 py-20 shell-pad-x lg:grid-cols-3 md:py-32">
                 <div class="section-num">025</div>
-                <div class="col-span-1 flex min-h-[24rem] flex-col justify-between overflow-hidden border border-white/10 p-6 md:p-8">
+                <div class="tilt-card reveal reveal-left col-span-1 flex min-h-[24rem] flex-col justify-between overflow-hidden border border-white/10 p-6 md:p-8" data-tilt data-tilt-strength="10">
                     <div class="font-label-mono text-label-sm opacity-40">SUB_SYSTEM_A</div>
                     <div class="relative flex h-full items-center justify-center">
-                        <img alt="Technical Component" class="absolute inset-0 h-full w-full object-contain opacity-20 grayscale" src="https://lh3.googleusercontent.com/aida/AP1WRLs6bHOhwM_03nBZqouUwGIEi362tpRWvzwxBmbKQiOqtq14pM3VO5S835RMjtWMEP40dW9ImB__l_m-r03YEd5LjS0uz4KY2hCA3D1YGl6nOxFZvYpuCSDA4pTmlhPdRhQsamDqKI-s6zcDL2eKsvq5F6LOqfXYgsj4maY2tHnh7x3V7kFtFmqSSkiivVr0RBVlMai471JG-IvyBPoHmEOe-73IuVqwYQXnn5ynVIcGzFfGBqpo8RWy">
-                        <svg class="relative z-10 h-32 w-32 opacity-60" viewBox="0 0 100 100">
+                        <img alt="Technical Component" class="float-layer absolute inset-0 h-full w-full object-contain opacity-20 grayscale" data-float data-float-strength="12" src="https://lh3.googleusercontent.com/aida/AP1WRLs6bHOhwM_03nBZqouUwGIEi362tpRWvzwxBmbKQiOqtq14pM3VO5S835RMjtWMEP40dW9ImB__l_m-r03YEd5LjS0uz4KY2hCA3D1YGl6nOxFZvYpuCSDA4pTmlhPdRhQsamDqKI-s6zcDL2eKsvq5F6LOqfXYgsj4maY2tHnh7x3V7kFtFmqSSkiivVr0RBVlMai471JG-IvyBPoHmEOe-73IuVqwYQXnn5ynVIcGzFfGBqpo8RWy">
+                        <svg class="relative z-10 h-32 w-32 opacity-60 tilt-depth-2" viewBox="0 0 100 100">
                             <circle cx="50" cy="50" fill="none" r="45" stroke="white" stroke-width="0.5"></circle>
                             <path d="M50 5 L50 95 M5 50 L95 50" stroke="white" stroke-width="0.5"></path>
                             <circle cx="50" cy="50" fill="white" r="2"></circle>
@@ -400,8 +498,8 @@ void main() {
                     </div>
                     <p class="font-label-mono text-label-tiny uppercase">Centripetal Force Analysis</p>
                 </div>
-                <div class="relative col-span-2 overflow-hidden bg-white p-8 text-black md:p-12">
-                    <img alt="Abstract Texture" class="absolute inset-0 h-full w-full object-cover opacity-5 mix-blend-multiply" src="https://lh3.googleusercontent.com/aida/AP1WRLs1uu688aKNsTmCw3ZzsMqa3SvS32sRcMX8bw_RblB5TxGzZleoLjzgfCbxU6zL_h0jU2iCD-G-YUd2MorbMJzyN964HKarXrUF4mdRBra8I5HuXlYiU8wBu8BjO4o2QXQJmF4M3e9Ya_LNngE4cIA3pGQNd3kzMD7hQyZOIGQNzottViEHHiuaSSYULJ-YdlmUE2Xbw-sf6RIQdEbAuAv1-kuuLT8wM3GBOdatsH4SoYPS-Fe5wPmwUw">
+                <div class="tilt-card reveal reveal-right relative col-span-2 overflow-hidden bg-white p-8 text-black md:p-12" data-tilt data-tilt-strength="8">
+                    <img alt="Abstract Texture" class="float-layer absolute inset-0 h-full w-full object-cover opacity-5 mix-blend-multiply" data-float data-float-strength="10" src="https://lh3.googleusercontent.com/aida/AP1WRLs1uu688aKNsTmCw3ZzsMqa3SvS32sRcMX8bw_RblB5TxGzZleoLjzgfCbxU6zL_h0jU2iCD-G-YUd2MorbMJzyN964HKarXrUF4mdRBra8I5HuXlYiU8wBu8BjO4o2QXQJmF4M3e9Ya_LNngE4cIA3pGQNd3kzMD7hQyZOIGQNzottViEHHiuaSSYULJ-YdlmUE2Xbw-sf6RIQdEbAuAv1-kuuLT8wM3GBOdatsH4SoYPS-Fe5wPmwUw">
                     <h3 class="relative z-10 mb-8 font-display-lg text-4xl uppercase leading-tight md:text-headline-lg">Brutalist<br>Intelligence.</h3>
                     <p class="relative z-10 mb-12 font-body-lg">Stripping away the decorative layers of modern AI to reveal the raw, structural mathematics beneath. This is not assistance; this is evolution.</p>
                     <button class="relative z-10 bg-black px-8 py-3 font-label-mono text-white">INIT_SYNC</button>
@@ -436,7 +534,7 @@ void main() {
 
             <section class="relative min-h-screen overflow-hidden border-t border-white/5 py-24 shell-pad-x md:py-64">
                 <div class="section-num">050</div>
-                <div class="mx-auto max-w-5xl">
+                <div class="mx-auto max-w-5xl reveal">
                     <div class="mb-12 flex flex-col gap-6 sm:flex-row sm:items-center sm:gap-8 md:mb-24">
                         <div class="flex h-20 w-20 items-center justify-center border border-primary font-bold md:h-24 md:w-24">P_K</div>
                         <h3 class="font-headline-lg text-4xl uppercase md:text-headline-lg">Porsche Kinetics: Fluid Motion</h3>
@@ -464,11 +562,11 @@ void main() {
                         </div>
                     </div>
                 </div>
-                <div class="relative mt-16 h-[38vh] cursor-crosshair overflow-hidden border border-white/10 md:mt-48 md:h-[60vh] group">
+                <div class="tilt-card reveal reveal-zoom relative mt-16 h-[38vh] cursor-crosshair overflow-hidden border border-white/10 md:mt-48 md:h-[60vh] group" data-tilt data-tilt-strength="14">
                     <div class="absolute inset-0 grid-pattern opacity-30"></div>
-                    <img alt="Wireframe City" class="absolute inset-0 h-full w-full object-cover opacity-20 grayscale transition-opacity duration-1000 group-hover:opacity-60" src="https://lh3.googleusercontent.com/aida/AP1WRLtsz8XNTMaFJMO8_jrh-WPJdiB3awTOd7celMFCDaLUdIkhk6hz-6RnQ5-o9_6CJp6KYt38Q_z_XAE-y4QTlN3sJjIvyCNbIAR2aqC-QId__oBO_N6IGlfVrEChaYNDwzrLnYRAPtwjhwDUg66HVQWSHjOdey11vRgudt8EOJmivs_j3EfiQP7573LwsVM8ABnewk57zlVGzufjKYvhm7nUXsnAlkj5RpeYKssWk5tZooOJ1IDT2TXd">
+                    <img alt="Wireframe City" class="float-layer absolute inset-0 h-full w-full object-cover opacity-20 grayscale transition-opacity duration-1000 group-hover:opacity-60" data-float data-float-strength="18" src="https://lh3.googleusercontent.com/aida/AP1WRLtsz8XNTMaFJMO8_jrh-WPJdiB3awTOd7celMFCDaLUdIkhk6hz-6RnQ5-o9_6CJp6KYt38Q_z_XAE-y4QTlN3sJjIvyCNbIAR2aqC-QId__oBO_N6IGlfVrEChaYNDwzrLnYRAPtwjhwDUg66HVQWSHjOdey11vRgudt8EOJmivs_j3EfiQP7573LwsVM8ABnewk57zlVGzufjKYvhm7nUXsnAlkj5RpeYKssWk5tZooOJ1IDT2TXd">
                     <div class="absolute inset-0 flex items-center justify-center opacity-10 transition-opacity group-hover:opacity-40">
-                        <span class="font-label-mono text-[22vw] tracking-tight select-none md:text-[20vw]">911_TURBO</span>
+                        <span class="float-layer tilt-depth-2 font-label-mono text-[22vw] tracking-tight select-none md:text-[20vw]" data-float data-float-strength="26">911_TURBO</span>
                     </div>
                 </div>
             </section>
@@ -477,7 +575,7 @@ void main() {
         <div class="relative bg-surface-container-lowest pt-24 md:pt-48" id="ARCHIVE">
             <section class="relative min-h-screen py-20 shell-pad-x md:py-32">
                 <div class="section-num">081</div>
-                <div class="mb-12 flex flex-col gap-6 md:mb-32 md:flex-row md:items-end md:justify-between">
+                <div class="reveal mb-12 flex flex-col gap-6 md:mb-32 md:flex-row md:items-end md:justify-between">
                     <div>
                         <span class="mb-4 block font-label-mono tracking-[0.3em] text-primary">EPOCH_03</span>
                         <h2 class="font-headline-lg text-4xl uppercase md:text-headline-lg">The Archive.</h2>
@@ -488,8 +586,8 @@ void main() {
                     </div>
                 </div>
                 <div class="grid auto-rows-[minmax(180px,auto)] grid-cols-1 gap-4 sm:grid-cols-2 xl:h-[120vh] xl:grid-cols-4 xl:grid-rows-4">
-                    <div class="group relative flex min-h-[260px] flex-col justify-between overflow-hidden border border-white/10 p-6 transition-all hover:border-primary sm:col-span-2 md:p-12 xl:row-span-2">
-                        <img alt="Data Center" class="absolute inset-0 h-full w-full object-cover opacity-10 grayscale transition-transform duration-1000 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida/AP1WRLv4QQuyUosbvVPR7uDCVoiLT-HEbFahNNEicMQssTWZd0jK2NfuMBGU5oHbPm_G6cJ-Ux_dsSjagOnTgtCviney2tV1FU8ehD2r-9_QAAnBQvjFkNBKVRmaPikhKtM13jhjlOUKKDVehY8mK3WmRU7HPQnUgeEvBSPwz_G2mbISaeZWiovJZ--3ihH02-KnPdC_Sg0LV7ZhVeh89kMTF-WfxeFYIRa3zetiaIfBsDAdNWtX0A87m4bO">
+                    <div class="tilt-card reveal reveal-left group relative flex min-h-[260px] flex-col justify-between overflow-hidden border border-white/10 p-6 transition-all hover:border-primary sm:col-span-2 md:p-12 xl:row-span-2" data-tilt data-tilt-strength="10">
+                        <img alt="Data Center" class="float-layer absolute inset-0 h-full w-full object-cover opacity-10 grayscale transition-transform duration-1000 group-hover:scale-110" data-float data-float-strength="14" src="https://lh3.googleusercontent.com/aida/AP1WRLv4QQuyUosbvVPR7uDCVoiLT-HEbFahNNEicMQssTWZd0jK2NfuMBGU5oHbPm_G6cJ-Ux_dsSjagOnTgtCviney2tV1FU8ehD2r-9_QAAnBQvjFkNBKVRmaPikhKtM13jhjlOUKKDVehY8mK3WmRU7HPQnUgeEvBSPwz_G2mbISaeZWiovJZ--3ihH02-KnPdC_Sg0LV7ZhVeh89kMTF-WfxeFYIRa3zetiaIfBsDAdNWtX0A87m4bO">
                         <div class="relative z-10">
                             <span class="font-label-mono opacity-40">ITEM_001</span>
                             <h4 class="mt-4 font-title-md text-headline-lg-mobile uppercase transition-all group-hover:tracking-widest">Project Gemini</h4>
@@ -553,13 +651,13 @@ void main() {
                             <h3 class="font-headline-lg text-4xl uppercase tracking-widest text-primary/20 md:text-headline-lg">Recursive<br>Eternity</h3>
                         </div>
                     </div>
-                    <div class="relative flex h-72 items-center justify-center md:h-96">
+                    <div class="tilt-card reveal reveal-right relative flex h-72 items-center justify-center md:h-96" data-tilt data-tilt-strength="16">
                         <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="h-64 w-64 animate-ping rounded-full border border-primary/20"></div>
-                            <div class="h-48 w-48 animate-[ping_2s_infinite] rounded-full border border-primary/40"></div>
-                            <div class="h-32 w-32 animate-[ping_3s_infinite] rounded-full border border-primary/60"></div>
+                            <div class="float-layer h-64 w-64 animate-ping rounded-full border border-primary/20" data-float data-float-strength="8"></div>
+                            <div class="float-layer h-48 w-48 animate-[ping_2s_infinite] rounded-full border border-primary/40" data-float data-float-strength="14"></div>
+                            <div class="float-layer h-32 w-32 animate-[ping_3s_infinite] rounded-full border border-primary/60" data-float data-float-strength="20"></div>
                         </div>
-                        <img alt="Infinite Recursion" class="h-64 w-64 animate-spin rounded-full object-cover opacity-40 grayscale" src="https://lh3.googleusercontent.com/aida/AP1WRLs1uu688aKNsTmCw3ZzsMqa3SvS32sRcMX8bw_RblB5TxGzZleoLjzgfCbxU6zL_h0jU2iCD-G-YUd2MorbMJzyN964HKarXrUF4mdRBra8I5HuXlYiU8wBu8BjO4o2QXQJmF4M3e9Ya_LNngE4cIA3pGQNd3kzMD7hQyZOIGQNzottViEHHiuaSSYULJ-YdlmUE2Xbw-sf6RIQdEbAuAv1-kuuLT8wM3GBOdatsH4SoYPS-Fe5wPmwUw">
+                        <img alt="Infinite Recursion" class="float-layer tilt-depth-2 h-64 w-64 animate-spin rounded-full object-cover opacity-40 grayscale" data-float data-float-strength="18" src="https://lh3.googleusercontent.com/aida/AP1WRLs1uu688aKNsTmCw3ZzsMqa3SvS32sRcMX8bw_RblB5TxGzZleoLjzgfCbxU6zL_h0jU2iCD-G-YUd2MorbMJzyN964HKarXrUF4mdRBra8I5HuXlYiU8wBu8BjO4o2QXQJmF4M3e9Ya_LNngE4cIA3pGQNd3kzMD7hQyZOIGQNzottViEHHiuaSSYULJ-YdlmUE2Xbw-sf6RIQdEbAuAv1-kuuLT8wM3GBOdatsH4SoYPS-Fe5wPmwUw">
                     </div>
                 </div>
             </section>
@@ -569,7 +667,7 @@ void main() {
             <section class="relative flex min-h-screen flex-col items-center justify-center py-20 shell-pad-x md:py-24">
                 <div class="section-num !text-black/5">161</div>
                 <div class="hud-corner top-24 shell-pad-l !text-black/40">STATUS: ASCENDING</div>
-                <div class="relative z-10 text-center">
+                <div class="relative z-10 text-center reveal">
                     <span class="mb-8 block font-label-mono text-[11px] uppercase tracking-[0.35em] opacity-40 md:mb-12 md:text-label-mono md:tracking-[0.5em]">Breaking the frame</span>
                     <h2 class="font-display-lg text-[20vw] font-black uppercase leading-[0.7] tracking-tight sm:text-[16vw] md:text-[18vw]">Pure<br>Light.</h2>
                 </div>
@@ -588,10 +686,10 @@ void main() {
                             <span class="font-label-mono font-bold">REACHED_LIMIT</span>
                         </div>
                     </div>
-                    <div class="relative aspect-square overflow-hidden bg-black p-6 md:p-12">
-                        <img alt="Ascended State" class="absolute inset-0 h-full w-full scale-150 object-cover opacity-20 grayscale" src="https://lh3.googleusercontent.com/aida/AP1WRLtY3XjvQb7x_S6pbQz_xGD9cN2B2s9U8MglGF26uDV0HWLI-0PnBQd2bv3U8yHJ9IveKytCavMNCYMQXn0tHthY-Jsa_Yx9ovmrMOnMwS9RQbpTy5jb5_V2Z8OSmIVmE6khQjkAgDJEgkdJi2F983VywcuRP1mwiRWzDJo708L96dS0L5dWwjZKyFZ3TSwUOAe5Z37pmiApdQM1oDSEW-StpFgpKZ2BZyx2LQXnHKuShgrGBvynRUYOsw">
+                    <div class="tilt-card reveal reveal-right relative aspect-square overflow-hidden bg-black p-6 md:p-12" data-tilt data-tilt-strength="10">
+                        <img alt="Ascended State" class="float-layer absolute inset-0 h-full w-full scale-150 object-cover opacity-20 grayscale" data-float data-float-strength="14" src="https://lh3.googleusercontent.com/aida/AP1WRLtY3XjvQb7x_S6pbQz_xGD9cN2B2s9U8MglGF26uDV0HWLI-0PnBQd2bv3U8yHJ9IveKytCavMNCYMQXn0tHthY-Jsa_Yx9ovmrMOnMwS9RQbpTy5jb5_V2Z8OSmIVmE6khQjkAgDJEgkdJi2F983VywcuRP1mwiRWzDJo708L96dS0L5dWwjZKyFZ3TSwUOAe5Z37pmiApdQM1oDSEW-StpFgpKZ2BZyx2LQXnHKuShgrGBvynRUYOsw">
                         <div class="relative z-10 flex h-full items-center justify-center">
-                            <span class="font-label-mono text-[24vw] font-bold leading-none text-white md:text-[15vw]">200</span>
+                            <span class="float-layer tilt-depth-2 font-label-mono text-[24vw] font-bold leading-none text-white md:text-[15vw]" data-float data-float-strength="18">200</span>
                         </div>
                     </div>
                 </div>
@@ -682,6 +780,7 @@ void main() {
         setInterval(updateClocks, 1000);
         updateClocks();
 
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const sectionNums = document.querySelectorAll(".section-num");
         window.addEventListener("scroll", () => {
             const viewportHeight = window.innerHeight;
@@ -693,6 +792,66 @@ void main() {
                     num.style.opacity = opacity;
                     num.style.transform = `translate(-50%, calc(-50% + ${(scrollPercent - 0.5) * 50}px))`;
                 }
+            });
+        });
+
+        const revealElements = document.querySelectorAll(".reveal");
+        if (!reduceMotion && "IntersectionObserver" in window) {
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("is-visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.18,
+                rootMargin: "0px 0px -10% 0px"
+            });
+
+            revealElements.forEach((element, index) => {
+                element.style.setProperty("--reveal-delay", `${Math.min(index % 4, 3) * 90}ms`);
+                revealObserver.observe(element);
+            });
+        } else {
+            revealElements.forEach((element) => element.classList.add("is-visible"));
+        }
+
+        const isDesktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+        const tiltCards = isDesktopPointer && !reduceMotion ? document.querySelectorAll("[data-tilt]") : [];
+
+        tiltCards.forEach((card) => {
+            const floatLayers = card.querySelectorAll("[data-float]");
+
+            card.addEventListener("pointermove", (event) => {
+                const rect = card.getBoundingClientRect();
+                const relativeX = (event.clientX - rect.left) / rect.width;
+                const relativeY = (event.clientY - rect.top) / rect.height;
+                const rotateStrength = Number(card.dataset.tiltStrength || 10);
+                const rotateY = (relativeX - 0.5) * rotateStrength;
+                const rotateX = (0.5 - relativeY) * rotateStrength;
+
+                card.classList.add("is-tilting");
+                card.style.setProperty("--mx", `${relativeX * 100}%`);
+                card.style.setProperty("--my", `${relativeY * 100}%`);
+                card.style.transform = `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translate3d(0, -4px, 0)`;
+
+                floatLayers.forEach((layer) => {
+                    const strength = Number(layer.dataset.floatStrength || 12);
+                    const moveX = (relativeX - 0.5) * strength;
+                    const moveY = (relativeY - 0.5) * strength;
+                    layer.style.setProperty("--float-x", `${moveX}px`);
+                    layer.style.setProperty("--float-y", `${moveY}px`);
+                });
+            });
+
+            card.addEventListener("pointerleave", () => {
+                card.classList.remove("is-tilting");
+                card.style.transform = "";
+                floatLayers.forEach((layer) => {
+                    layer.style.removeProperty("--float-x");
+                    layer.style.removeProperty("--float-y");
+                });
             });
         });
 
